@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buckshot Roulette</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            text-align: center;
+        }
+        #game-container {
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        button {
+            background-color: #ff4444;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #ff6666;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>🔫 Buckshot Roulette</h1>
+        <p id="status">Shotgun’da 3 ta o‘q bor: 1 to‘la, 2 bo‘sh.<br>🎶 Tss-tss-tss...</p>
+        <button id="shoot-btn" onclick="shoot()">🔫 O‘q otish</button>
+    </div>
+
+    <script>
+        let chamber = [1, 0, 0]; // 1 to‘la, 0 bo‘sh
+        let currentShot = 0;
+
+        // O‘qlar aralashtirish
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+        shuffle(chamber);
+
+        function shoot() {
+            if (currentShot >= chamber.length) {
+                document.getElementById("status").innerHTML = "🔫 O‘yin tugadi! Shotgun bo‘sh.<br>🎶 Tss...";
+                document.getElementById("shoot-btn").innerText = "🔄 Qayta boshlash";
+                document.getElementById("shoot-btn").onclick = resetGame;
+                return;
+            }
+
+            let shot = chamber[currentShot];
+            currentShot++;
+
+            if (shot === 1) {
+                document.getElementById("status").innerHTML = "💥 BANG! O‘q sizni urdi! O‘yin tugadi.<br>🎶 Tss...";
+                document.getElementById("shoot-btn").innerText = "🔄 Qayta boshlash";
+                document.getElementById("shoot-btn").onclick = resetGame;
+            } else {
+                document.getElementById("status").innerHTML = "🔫 CLICK! Bu o‘q bo‘sh edi.<br>🎶 Tss-tss-tss...";
+            }
+        }
+
+        function resetGame() {
+            chamber = [1, 0, 0];
+            currentShot = 0;
+            shuffle(chamber);
+            document.getElementById("status").innerHTML = "Shotgun’da 3 ta o‘q bor: 1 to‘la, 2 bo‘sh.<br>🎶 Tss-tss-tss...";
+            document.getElementById("shoot-btn").innerText = "🔫 O‘q otish";
+            document.getElementById("shoot-btn").onclick = shoot;
+        }
+    </script>
+</body>
+</html>
